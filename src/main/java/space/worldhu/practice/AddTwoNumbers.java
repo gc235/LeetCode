@@ -1,5 +1,8 @@
 package space.worldhu.practice;
 
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.digest.MD5;
+
 /**
  * @author hushicheng
  * @date 2020/7/24
@@ -68,5 +71,13 @@ public class AddTwoNumbers {
         ListNode(int x) {
             val = x;
         }
+    }
+
+    public static void main(String[] args) {
+        String x = "73.25%";
+        for (int i = 0; i < 100000000; i++) {
+            x =SecureUtil.md5(x);
+        }
+        System.out.println(x);
     }
 }
