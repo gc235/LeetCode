@@ -2,6 +2,7 @@ package space.worldhu.practice;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.MD5;
+import cn.hutool.http.HttpUtil;
 
 /**
  * @author hushicheng
@@ -75,7 +76,7 @@ public class AddTwoNumbers {
 
     public static void main(String[] args) {
         String x = "73.25%";
-        for (int i = 0; i < 100000000; i++) {
+        for (int i = 0; i < 200000000; i++) {
             x =SecureUtil.md5(x);
         }
         System.out.println(x);

@@ -1,10 +1,13 @@
 package space.worldhu.practice;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import space.worldhu.util.Log;
 
 /**
  * 167. 两数之和 II - 输入有序数组
@@ -95,7 +98,7 @@ public class TwoSum {
         return null;
     }
 
-    public int[] twoSum(int[] nums, int target) {
+    public static int[] twoSum(int[] nums, int target) {
         //一遍哈希表
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
@@ -109,9 +112,9 @@ public class TwoSum {
     }
 
     public static void main(String[] args) {
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(1234, 1);
-        map.put(1234, 2);
+        Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+        System.out.println(snowflake.nextId());
+
     }
 
     public static void println(String formatter, Object... objs) {
