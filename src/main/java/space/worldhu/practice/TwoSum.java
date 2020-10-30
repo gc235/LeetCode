@@ -62,7 +62,7 @@ public class TwoSum {
                 --high;
             }
         }
-        return new int[]{-1, -1};
+        return new int[]{low, high};
     }
 
     /**

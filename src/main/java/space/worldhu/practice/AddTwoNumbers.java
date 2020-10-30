@@ -1,8 +1,13 @@
 package space.worldhu.practice;
 
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.digest.MD5;
-import cn.hutool.http.HttpUtil;
+import cn.hutool.crypto.digest.DigestAlgorithm;
+import cn.hutool.crypto.digest.Digester;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Provider;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 /**
  * @author hushicheng
@@ -74,10 +79,11 @@ public class AddTwoNumbers {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         String x = "73.25%";
-        for (int i = 0; i < 200000000; i++) {
-            x =SecureUtil.md5(x);
+        Digester md2 = new Digester(DigestAlgorithm.MD2);
+        for (int i = 0; i < 100000000; i++) {
+            x = md2.digestHex(x, Charset.defaultCharset());
         }
         System.out.println(x);
     }
