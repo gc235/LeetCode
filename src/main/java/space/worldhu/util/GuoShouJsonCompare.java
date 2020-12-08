@@ -1,18 +1,20 @@
 package space.worldhu.util;
 
-import cn.hutool.core.io.IoUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
-import com.sun.xml.internal.ws.util.StreamUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * @author hushicheng
@@ -23,17 +25,35 @@ public class GuoShouJsonCompare {
     public static void main(String[] args) {
         JSONObject gpic = readText("1.json");
         JSONObject local = readText("2.json");
-        compare(gpic, local);
-//        compare(local, gpic);
+        Map<String, Integer> c1 = new HashMap<>();
+        Map<String, Integer> c2 = new HashMap<>();
+        compare(gpic, local, c1);
+//        compare(local, gpic, c2);
+//        c2.forEach((k2, v) -> {
+//            if (!c2.get(k2).equals(c1.get(k2))) {
+//                System.out.println(k2 + "  " + v);
+//            }
+//        });
     }
 
-    public static void compare(JSONObject obj1, JSONObject obj2) {
+    public static Map<String, Integer> compare(JSONObject obj1, JSONObject obj2,
+            Map<String, Integer> map) {
         obj1.forEach((key, o) -> {
+            Integer xx = map.get(key);
+            if (xx == null) {
+                xx = 1;
+            } else {
+                xx = xx + 1;
+            }
+            map.put(key, xx);
             if (key.equals("id") || key.endsWith("Id")) {
                 return;
             }
             Object o1 = obj1.get(key);
             Object o2 = obj2.get(key);
+            if (Objects.equals(o1, o2)) {
+                return;
+            }
             if (o1 == null || o2 == null) {
                 Log.println("null value-->key:{}  o1:{}  o2:{}", key, o1, o2);
             }else if (!(o1 instanceof JSONObject) && !(o1 instanceof JSONArray)) {
@@ -45,18 +65,20 @@ public class GuoShouJsonCompare {
             }else if (o1 instanceof JSONObject) {
                 Log.println("+++++++++++++++++++++++++");
                 Log.println("enter {}", key);
-                compare((JSONObject) o1, (JSONObject) o2);
+                compare((JSONObject) o1, (JSONObject) o2, map);
             }else if (o1 instanceof JSONArray) {
                 JSONArray arr1 = (JSONArray) o1;
                 JSONArray arr2 = (JSONArray) o2;
                 for (int i = 0; i < arr1.size(); i++) {
                     Log.println("+++++++++++++++++++++++++");
                     Log.println("enter {}:{}", key, i);
-                    compare(arr1.getJSONObject(i), arr2.getJSONObject(i));
+                    compare(arr1.getJSONObject(i), arr2.getJSONObject(i), map);
                 }
 
             }
         });
+//        set.forEach(System.out::println);
+        return map;
     }
 
     public static JSONObject readText(String fileName) {

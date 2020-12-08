@@ -1,16 +1,20 @@
 package space.worldhu.test;
 
-import com.alibaba.fastjson.JSONObject;
-import com.sun.xml.internal.ws.util.StringUtils;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
+import space.worldhu.util.JsUtils;
+import space.worldhu.util.RSAUtil;
 
 /**
  * @author hushicheng
@@ -18,10 +22,12 @@ import java.util.List;
  */
 public class Test {
 
-    public static void main(String[] args) throws SocketException {
-        JSONObject j =  new JSONObject();
-        j.put("X", "1");
-        System.out.println(j.getIntValue("X"));
+    public static void main(String[] args)
+            throws InvalidKeySpecException, NoSuchAlgorithmException {
+        String key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA73jDjqpLU/z2J2yhTTgH9wgN/Ztym1wRqhHcpAevdEHmJ02/+Qm+2rEHlAfUZR89WD6rxOjMRukIjojmxCIzdZMvN9HM1oZO+PHfpWV1vcxKiCKqfhZgtHSY8IkXGybg45mfhl8Ds3Huji2RPNkBMj8KPU2Ofb8HtBptl/hIGy1rctWy4GSceb7arra5Il+wsjV46Yig/bwrldkePwSZvbRja/DOZCtLOMQJv41rvRH1gSYoWwd5KeJQT1lWBBIoFbfNGSlr8H7ejt1nWJInlRVceWy157eeLqPz9TmEqrYD5VAFqn1sYMphysXIHUPr3IUZJWnooT/330k6A2ec8QIDAQAB";
+        String s = RSAUtil.publicEncrypt("371122198801067278", RSAUtil.getPublicKey(key));
+        System.out.println(s);
+
     }
 
     public static String getRealIp() throws SocketException {
